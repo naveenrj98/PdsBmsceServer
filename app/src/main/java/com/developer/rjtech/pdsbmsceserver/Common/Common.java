@@ -15,7 +15,7 @@ import java.util.Locale;
 
 public class Common {
 
-    public  static Request currentRequest;
+
     public  static User currentUser;
     public static final String UPDATE = "Update";
     public static final String DELETE = "Delete";

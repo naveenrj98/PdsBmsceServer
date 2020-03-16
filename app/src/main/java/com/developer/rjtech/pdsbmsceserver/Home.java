@@ -153,7 +153,7 @@ public class Home extends AppCompatActivity
     private void showDialog() {
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
-        alertDialog.setTitle("Add New Category");
+        alertDialog.setTitle("Add New Company");
         alertDialog.setMessage("Please Fill Complete Information");
 
         LayoutInflater inflater = this.getLayoutInflater();
@@ -233,7 +233,7 @@ public class Home extends AppCompatActivity
                             imageFolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    newCategory = new Category(editName.getText().toString(), uri.toString());
+                                    newCategory = new Category(editName.getText().toString(), uri.toString()," "," ","");
 
                                 }
                             });
