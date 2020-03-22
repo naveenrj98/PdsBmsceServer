@@ -9,4 +9,77 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_track_order">MapFood</string>
+
+    <string-array name="duration">
+        <item>Select Internship duration</item>
+        <item>2 Months</item>
+        <item>3 Months</item>
+        <item>4-5 Months</item>
+        <item>6 Months</item>
+
+
+    </string-array>
+    <string-array name="job_type">
+        <item>Select Job Type</item>
+        <item>Only Internship</item>
+        <item>Performance Based Conversion</item>
+        <item>Full-time + Internship</item>
+        <item>Only Full-Time</item>
+
+
+    </string-array>
+    <string-array name="department">
+        <item>Select Department</item>
+        <item>CSE</item>
+        <item>ECE</item>
+        <item>EEE</item>
+        <item>ISE</item>
+        <item>Mech.</item>
+        <item>ML</item>
+        <item>IEM</item>
+
+
+    </string-array>
+    <string-array name="work_time">
+        <item>Select work time</item>
+        <item>1 Days/week</item>
+        <item>2 Days/week</item>
+        <item>3 Days/week</item>
+        <item>4 Days/week</item>
+        <item>5 Days/week</item>
+
+
+
+    </string-array>
+    <string-array name="offers">
+        <item>Select No of Offers given</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item><item>6</item><item>7</item><item>8</item><item>9</item><item>10</item><item>11</item><item>12</item><item>13</item><item>14</item>
+        <item>15</item><item>17</item><item>18</item><item>19</item><item>20</item><item>20+More</item>
+
+
+
+
+    </string-array>
+
+    <string-array name="select_eligible_department">
+        <item>CSE</item>
+        <item>ECE</item>
+        <item>EEE</item>
+        <item>ISE</item>
+        <item>Mech.</item>
+        <item>ML</item>
+        <item>IEM</item>
+    </string-array>
+
+    <!--     Spinner Items-->
+
+    <string name="make_an_order">Make an order</string>
+    <string name="dialog_title">Items available in a shop</string>
+    <string name="ok_label">OK</string>
+    <string name="dismiss_label">Dismiss</string>
+    <string name="clear_all_label">Clear all</string>
 </resources>

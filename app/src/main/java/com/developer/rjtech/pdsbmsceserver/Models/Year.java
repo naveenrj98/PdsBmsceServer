@@ -1,35 +1,35 @@
 package com.developer.rjtech.pdsbmsceserver.Models;
 
-public class Category {
+public class Year {
 
 
 
     private String Name;
     private String Image;
-    private String details;
+    private String detail;
 
 
-    public Category() {
+    public Year() {
 
     }
 
-    public Category(String name, String image) {
+    public Year(String name, String image) {
         Name = name;
         Image = image;
     }
 
-    public Category(String name, String image, String details) {
+    public Year(String name, String image, String detail) {
         Name = name;
         Image = image;
-        this.details = details;
+        this.detail = detail;
     }
 
-    public String getDetails() {
-        return details;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public String getName() {
@@ -50,9 +50,10 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "Year{" +
                 "Name='" + Name + '\'' +
                 ", Image='" + Image + '\'' +
+                ", detail='" + detail + '\'' +
                 '}';
     }
 }
