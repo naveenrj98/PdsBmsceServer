@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="4dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+
+                android:layout_margin="20dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/editName"
+                    android:hint="Name of Company"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <Spinner
+                    android:id="@+id/spin_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+
+                    />
+                <Spinner
+                    android:id="@+id/spin_worktime"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+
+                    />
+                <Spinner
+                    android:id="@+id/spin_jobtype"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+
+                    />
+                <!--cgpa,eligibledepartment,jobdescrition,joblocation,offers,role,visitdate   -->
+                <EditText
+                    android:id="@+id/et_cgpa"
+                    android:hint="CGPA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="30dp"
+                   android:gravity="center"
+                   android:id="@+id/tv_elgible_department"
+                   android:hint="Click to Select Eligible Department"/>
+                <EditText
+                    android:id="@+id/et_job_role"
+                    android:hint="Job Role"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/et_job_location"
+                    android:hint="Job Location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <Spinner
+                    android:id="@+id/spin_offers"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+
+                    />
+                <EditText
+                    android:id="@+id/et_visitdate"
+                    android:hint="Date of Visit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+
+                    <Button
+
+                        android:id="@+id/btnselect"
+                        android:text="Select"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/btnupload"
+                        android:text="Upload"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+
+
+
+
+
+</androidx.cardview.widget.CardView>

@@ -29,10 +29,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Home"
+            android:name=".Companies.CompanyYearActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SignIn" />
+        <activity android:name=".Companies.CompanyCategoryActivity" />
+        <activity android:name=".Companies.CompanyListActivity" />
     </application>
 
 </manifest>

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.developer.rjtech.pdsbmsceserver.Common.Common;
+import com.developer.rjtech.pdsbmsceserver.Companies.CompanyYearActivity;
 import com.developer.rjtech.pdsbmsceserver.Models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -91,7 +92,7 @@ public class SignIn extends AppCompatActivity {
                                    if (user.getPassword().equals(localPassowrd)) {
 
 
-                                            Intent intent = new Intent(SignIn.this, Home.class);
+                                            Intent intent = new Intent(SignIn.this, CompanyYearActivity.class);
                                             Common.currentUser = user;
                                             startActivity(intent);
                                             finish();

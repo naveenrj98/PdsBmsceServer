@@ -1,15 +1,15 @@
-package com.developer.rjtech.pdsbmsceserver;
+package com.developer.rjtech.pdsbmsceserver.Companies;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,21 +27,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.developer.rjtech.pdsbmsceserver.Common.Common;
 import com.developer.rjtech.pdsbmsceserver.Interface.ItemClickListener;
-import com.developer.rjtech.pdsbmsceserver.Models.Category;
-import com.developer.rjtech.pdsbmsceserver.ViewHolder.MenuViewHolder;
+import com.developer.rjtech.pdsbmsceserver.Models.Year;
+import com.developer.rjtech.pdsbmsceserver.R;
+import com.developer.rjtech.pdsbmsceserver.ViewHolder.YearViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
+
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -50,12 +50,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
 
-public class Home extends AppCompatActivity
+public class CompanyYearActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
     FirebaseDatabase database;
-    DatabaseReference category;
+    DatabaseReference year;
 
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -65,13 +65,13 @@ public class Home extends AppCompatActivity
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
 
-    FirebaseRecyclerAdapter<Category, MenuViewHolder> adptor;
+    FirebaseRecyclerAdapter<Year, YearViewHolder> adptor;
 
     EditText editName;
     Button btnselect, btnuplaod;
 
 
-    Category newCategory;
+    Year newYear;
     Uri saveUrl;
     private final int PICK_IMAGE_REQUEST = 71;
     DrawerLayout drawer;
@@ -112,7 +112,8 @@ public class Home extends AppCompatActivity
 
         //Auth
         database = FirebaseDatabase.getInstance();
-        category = database.getReference("Category");
+        year = database.getReference("CompanyYear");
+
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
@@ -122,38 +123,70 @@ public class Home extends AppCompatActivity
 
         textFullName.setText(Common.currentUser.getName());
 
+
         recycler_menu = findViewById(R.id.recycler_menu);
         recycler_menu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recycler_menu.setLayoutManager(layoutManager);
 
-     //   recycler_menu.setLayoutManager(new GridLayoutManager(this,2));
 
-        loadMenu();
-
-//        upadteoken(FirebaseInstanceId.getInstance().getToken());
-
-//        Log.d("fs", "serviswe starts");
-//        Intent intent = new Intent(Home.this, ListenOrder.class);
-//        startService(intent);
+        loadYear();
 
 
     }
 
-//    private void upadteoken(String token) {
-//
-//        FirebaseDatabase db= FirebaseDatabase.getInstance();
-//        DatabaseReference tokens= db.getReference("Tokens");
-//        Token data=new Token(token,true);//client side
-//        tokens.child(Common.currentUser.getPhone()).setValue(data);
-//
-//    }
+    private void loadYear() {
+
+        FirebaseRecyclerOptions<Year> options = new FirebaseRecyclerOptions.Builder<Year>()
+                .setQuery(year, Year.class)
+                .build();
+
+        adptor = new FirebaseRecyclerAdapter<Year, YearViewHolder>(options) {
+
+            @Override
+            protected void onBindViewHolder(@NonNull YearViewHolder holder, int position, @NonNull Year model) {
+
+                holder.textMenuName.setText(model.getName());
+                Picasso.with(getApplicationContext()).load(model.getImage())
+                        .into(holder.imageView);
+                final Year clickItem = model;
+                holder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position, boolean isLongClick) {
+
+                        Toast.makeText(getApplicationContext(), "" + clickItem.getName(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), CompanyCategoryActivity.class);
+//                        intent.putExtra("CategoryId", adptor.getRef(position).getKey());
+                        Common.yearSelected = adptor.getRef(position).getKey();
+                        startActivity(intent);
+
+
+                    }
+                });
+
+
+            }
+
+            @NonNull
+            @Override
+            public YearViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.menu_item, parent, false);
+                return new YearViewHolder(itemView);
+            }
+        };
+        adptor.startListening();
+            adptor.notifyDataSetChanged();
+        recycler_menu.setAdapter(adptor);
+
+    }
+
 
 
     private void showDialog() {
 
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
-        alertDialog.setTitle("Add New Company");
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(CompanyYearActivity.this);
+        alertDialog.setTitle("Add New Company Year");
         alertDialog.setMessage("Please Fill Complete Information");
 
         LayoutInflater inflater = this.getLayoutInflater();
@@ -189,10 +222,11 @@ public class Home extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
 
                     dialog.dismiss();
-                    if(newCategory  !=null){
+                    if(newYear  !=null){
 
-                        category.push().setValue(newCategory);
-                        Snackbar.make(drawer,"New Category"+newCategory.getName()+"was addded",Snackbar.LENGTH_SHORT).show();
+                        year.child(editName.getText().toString()).setValue(newYear);
+
+                        Snackbar.make(drawer,"New CompanyYear"+newYear.getName()+"was added SuccessFully",Snackbar.LENGTH_SHORT).show();
 
                     }
             }
@@ -215,7 +249,7 @@ public class Home extends AppCompatActivity
 
         if (saveUrl != null) {
 
-            final ProgressDialog progressDialog = new ProgressDialog(Home.this);
+            final ProgressDialog progressDialog = new ProgressDialog(CompanyYearActivity.this);
             progressDialog.setMessage("Uploading........");
             progressDialog.show();
 
@@ -229,11 +263,11 @@ public class Home extends AppCompatActivity
 
 
                             progressDialog.dismiss();
-                            Toast.makeText(Home.this,"Uplaod Succesfull", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CompanyYearActivity.this,"Uplaod Succesfull", Toast.LENGTH_SHORT).show();
                             imageFolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    newCategory = new Category(editName.getText().toString(), uri.toString()," "," ","");
+                                    newYear = new Year(editName.getText().toString(), uri.toString()," ");
 
                                 }
                             });
@@ -245,7 +279,7 @@ public class Home extends AppCompatActivity
                         public void onFailure(@NonNull Exception e) {
 
                             progressDialog.dismiss();
-                            Toast.makeText(Home.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CompanyYearActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
                     })
@@ -282,47 +316,50 @@ public class Home extends AppCompatActivity
 
     }
 
-    private void loadMenu(){
-
-        adptor = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class,category) {
-            @Override
-            protected void populateViewHolder(MenuViewHolder viewHolder, Category model, int position) {
-
-                viewHolder.textMenuName.setText(model.getName());
-                Picasso.with(getBaseContext()).load(model.getImage())
-                        .into(viewHolder.imageView);
-                final Category clickItem = model;
-                viewHolder.setItemClickListener(new ItemClickListener() {
-                    @Override
-                    public void onClick(View view, int position, boolean isLongClick) {
-
-
-//                        Log.d("MenuViewHolder.this", "click on menu");
+//    private void loadMenu(){
 //
-//                        Toast.makeText(Home.this,""+clickItem.getName(), Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(Home.this, FoodList.class);
-//                        intent.putExtra("CategoryId",adptor.getRef(position).getKey());
-//                        startActivity(intent);
-
-                    }
-                });
-
+//
+//
+//
+//        adptor = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class,category) {
+//            @Override
+//            protected void populateViewHolder(MenuViewHolder viewHolder, Category model, int position) {
+//
+//                viewHolder.textMenuName.setText(model.getName());
+//                Picasso.with(getBaseContext()).load(model.getImage())
+//                        .into(viewHolder.imageView);
+//                final Category clickItem = model;
 //                viewHolder.setItemClickListener(new ItemClickListener() {
 //                    @Override
 //                    public void onClick(View view, int position, boolean isLongClick) {
 //
-//                        Toast.makeText(Home.this,""+clickItem.getName(),Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(Home.this, FoodList.class);
-//                        intent.putExtra("CategoryId",adptor.getRef(position).getKey());
-//                        startActivity(intent);
+//
+////                        Log.d("MenuViewHolder.this", "click on menu");
+////
+////                        Toast.makeText(CompanyYearActivity.this,""+clickItem.getName(), Toast.LENGTH_SHORT).show();
+////                        Intent intent = new Intent(CompanyYearActivity.this, FoodList.class);
+////                        intent.putExtra("CategoryId",adptor.getRef(position).getKey());
+////                        startActivity(intent);
 //
 //                    }
 //                });
-            }
-        };
-        adptor.notifyDataSetChanged();
-        recycler_menu.setAdapter(adptor);
-    }
+//
+////                viewHolder.setItemClickListener(new ItemClickListener() {
+////                    @Override
+////                    public void onClick(View view, int position, boolean isLongClick) {
+////
+////                        Toast.makeText(CompanyYearActivity.this,""+clickItem.getName(),Toast.LENGTH_SHORT).show();
+////                        Intent intent = new Intent(CompanyYearActivity.this, FoodList.class);
+////                        intent.putExtra("CategoryId",adptor.getRef(position).getKey());
+////                        startActivity(intent);
+////
+////                    }
+////                });
+//            }
+//        };
+//        adptor.notifyDataSetChanged();
+//        recycler_menu.setAdapter(adptor);
+//    }
 
 
     @Override
@@ -345,7 +382,7 @@ public class Home extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+        // automatically handle clicks on the CompanyYearActivity/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
@@ -368,7 +405,7 @@ public class Home extends AppCompatActivity
         } else if (id == R.id.nav_cart) {
 
         } else if (id == R.id.nav_orders) {
-//            Intent intent = new Intent(Home.this,OrderStatus.class);
+//            Intent intent = new Intent(CompanyYearActivity.this,OrderStatus.class);
 //            startActivity(intent);
 
 
@@ -402,37 +439,18 @@ public class Home extends AppCompatActivity
 
     private void deleteCategory(String key) {
 
-        DatabaseReference foods = database.getReference("Foods");
-        Query foodInCategory = foods.orderByChild("menuId").equalTo(key);
-        foodInCategory.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
-                    postSnapshot.getRef().removeValue();
 
 
-                }
 
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        category.child(key).removeValue();
-        Toast.makeText(Home.this,"Item deleted RJ", Toast.LENGTH_SHORT).show();
+        year.child(key).removeValue();
+        Toast.makeText(CompanyYearActivity.this,"Item deleted RJ", Toast.LENGTH_SHORT).show();
 
     }
 
-    private void showUpdateDialog(final String key, final Category item) {
+    private void showUpdateDialog(final String key, final Year item) {
 
 
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(CompanyYearActivity.this);
         alertDialog.setTitle("Update Category");
         alertDialog.setMessage("Please Fill Complete Information");
 
@@ -472,7 +490,7 @@ public class Home extends AppCompatActivity
 
                 dialog.dismiss();
               item.setName(editName.getText().toString());
-                category.child(key).setValue(item);
+                year.child(key).setValue(item);
             }
         });
         alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -489,12 +507,12 @@ public class Home extends AppCompatActivity
 
     }
 
-    private void ChangeImage(final Category item) {
+    private void ChangeImage(final Year item) {
 
 
         if (saveUrl != null) {
 
-            final ProgressDialog progressDialog = new ProgressDialog(Home.this);
+            final ProgressDialog progressDialog = new ProgressDialog(CompanyYearActivity.this);
             progressDialog.setMessage("Uploading........");
             progressDialog.show();
 
@@ -508,7 +526,7 @@ public class Home extends AppCompatActivity
 
 
                             progressDialog.dismiss();
-                            Toast.makeText(Home.this,"Uplaod Succesfull", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CompanyYearActivity.this,"Uplaod Succesfull", Toast.LENGTH_SHORT).show();
                             imageFolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
@@ -524,7 +542,7 @@ public class Home extends AppCompatActivity
                         public void onFailure(@NonNull Exception e) {
 
                             progressDialog.dismiss();
-                            Toast.makeText(Home.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CompanyYearActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
                     })

@@ -6,9 +6,13 @@ public class User {
     private String Password;
     private String phone;
     private String IsStaff;
+    private String companyYearId;
 
     public String getPhone() {
         return phone;
+    }
+
+    public User() {
     }
 
     public void setPhone(String phone) {
@@ -25,16 +29,29 @@ public class User {
         return IsStaff;
     }
 
+
+    public User(String name, String password, String phone, String isStaff, String companyYearId) {
+        Name = name;
+        Password = password;
+        this.phone = phone;
+        IsStaff = isStaff;
+        this.companyYearId = companyYearId;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
+    }
+
     public void setIsStaff(String isStaff) {
         IsStaff = isStaff;
     }
 
-    public User() {
-
+    public String getCompanyYearId() {
+        return companyYearId;
     }
-    public User(String name, String password) {
-        Name = name;
-        Password = password;
+
+    public void setCompanyYearId(String companyYearId) {
+        this.companyYearId = companyYearId;
     }
 
     public String getName() {
@@ -49,40 +66,7 @@ public class User {
         return Password;
     }
 
-    public void setPassword(String password) {
-        Password = password;
-    }
+
 }
 
-//
-//package com.developer.rjtech.pdsbmsceserver.Models;
-//
-//public class Category {
-//
-//    private String Name;
-//    private String Image;
-//
-//    public Category() {
-//
-//    }
-//    public Category(String name, String image) {
-//        Name = name;
-//        Image = image;
-//    }
-//
-//    public String getName() {
-//        return Name;
-//    }
-//
-//    public void setName(String name) {
-//        Name = name;
-//    }
-//
-//    public String getImage() {
-//        return Image;
-//    }
-//
-//    public void setImage(String image) {
-//        Image = image;
-//    }
-//}
+

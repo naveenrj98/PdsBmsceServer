@@ -19,6 +19,8 @@ public class Common {
     public  static User currentUser;
     public static final String UPDATE = "Update";
     public static final String DELETE = "Delete";
+    public static  String yearSelected="";
+    public static  String companyCategorySelected="";
 
     public static String baseUrl = "https://maps.googleapis.com";
     public static final String BASE_URL = "https://fcm.googleapis.com/";
